@@ -17,6 +17,11 @@ Before getting started, ensure you have the following prerequisites installed:
     npm install -g @vue/cli
     ```
 
+- **Certificates for Office Add-in Development**: Install using the following command:
+    ```bash
+    npx office-addin-dev-certs install --machine --days 30
+    ```
+
 ## Setup
 
 1. Clone the repository and navigate to the project directory frontend folder:
