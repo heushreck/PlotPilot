@@ -1,64 +1,71 @@
 <template>
   <div id="app">
-    <div class="content">
-      <div class="content-header">
-        <div class="padding">
-          <h1>Welcome</h1>
-        </div>
-      </div>
-      <div class="content-main">
-        <div class="padding">
-          <p>
-            Choose the button below to set the color of the selected range to
-            green.
-          </p>
-          <br />
-          <h3>Try it out</h3>
-          <button @click="onSetColor">Set color</button>
-        </div>
-      </div>
-    </div>
+    <header class="header">
+      <h2>Welcome to Plot Pilot</h2>
+    </header>
+    <main class="content">
+      <h3>This is a simple Vue.js Office Add-In app to demonstrate basic styling and structure.</h3>
+      <p>Highlight a couple of Cells in the Worksheet and color them by clicking the button.</p>
+      <button class="button" @click="onSetColor">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M20.599 1.5c-.376 0-.743.111-1.055.32l-5.08 3.385a18.747 18.747 0 0 0-3.471 2.987 10.04 10.04 0 0 1 4.815 4.815 18.748 18.748 0 0 0 2.987-3.472l3.386-5.079A1.902 1.902 0 0 0 20.599 1.5Zm-8.3 14.025a18.76 18.76 0 0 0 1.896-1.207 8.026 8.026 0 0 0-4.513-4.513A18.75 18.75 0 0 0 8.475 11.7l-.278.5a5.26 5.26 0 0 1 3.601 3.602l.502-.278ZM6.75 13.5A3.75 3.75 0 0 0 3 17.25a1.5 1.5 0 0 1-1.601 1.497.75.75 0 0 0-.7 1.123 5.25 5.25 0 0 0 9.8-2.62 3.75 3.75 0 0 0-3.75-3.75Z" clip-rule="evenodd" />
+        </svg>
+        <div>Color Me</div>
+      </button>
+    </main>
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'App',
-    methods: {
-      onSetColor() {
+
+<script setup>
+  import { ref } from 'vue';
+  const teaGreen = ref('rgba(196, 241, 190, 1)');
+  const paynesGray = ref('rgba(82, 91, 118, 1)');
+  const spaceCadet = ref('rgba(32, 30, 80, 1)');
+  const onSetColor = () => {
         window.Excel.run(async context => {
           const range = context.workbook.getSelectedRange();
-          range.format.fill.color = 'green';
+          range.format.fill.color = '#a2c3a4';
           await context.sync();
         });
-      }
-    }
-  };
+      };
+  
 </script>
 
 <style>
-  .content-header {
-    background: #2a8dd4;
-    color: #fff;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    overflow: hidden;
-  }
 
-  .content-main {
-    background: #fff;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: auto;
-  }
+html, body {
+  background-color: rgba(162, 195, 164, 1);
+}
 
-  .padding {
-    padding: 15px;
-  }
+.header {
+  background-color: v-bind("spaceCadet");
+  color: v-bind("teaGreen");
+  text-align: center;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.content {
+  padding: 20px;
+  color: v-bind("spaceCadet");
+}
+
+.button {
+  background-color: v-bind("paynesGray");
+  color: v-bind("teaGreen");
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.icon {
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+}
 </style>

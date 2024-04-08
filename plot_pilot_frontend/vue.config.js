@@ -1,9 +1,8 @@
-const { defineConfig } = require('@vue/cli-service')
 const fs = require("fs");
 const path = require("path");
 const homedir = require('os').homedir()
-module.exports = defineConfig({
-  transpileDependencies: true,
+
+module.exports = {
   devServer: {
     port: 3000,
     https: {
@@ -12,4 +11,4 @@ module.exports = defineConfig({
       ca: fs.readFileSync(path.resolve(`${homedir}/.office-addin-dev-certs/ca.crt`)),
      }
    }
-})
+}
