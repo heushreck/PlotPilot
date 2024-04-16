@@ -20,51 +20,44 @@
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 const teaGreen = ref('rgba(196, 241, 190, 1)');
 const paynesGray = ref('rgba(82, 91, 118, 1)');
 const spaceCadet = ref('rgba(32, 30, 80, 1)');
 const intention = ref('');
 
-// let fact = ""
-
-// const fetchData = async() => {
-//   await fetch('https://testapi.jasonwatmore.com/products/1')
-//     .then(response => response.json())
-//     .then(data => fact = data);
-// };
-
-    // range.load("values");
-    // await context.sync();
-    // // Call the API that gives us the chart data
-    // // convert the range to a JSON object
-    // console.log(range.values);
-    // console.log(intention.value);
-    // await fetchData();
-    // console.log(fact);
-    // ...
-    // Create the chart in Excel
-
-// const available_data_types = ["Line", "Doughnut", "ColumnClustered", "Waterfall", "XYScatter"]
-
-
-const chartData = {
-  chartType : "Line",
+let chartData = {
+  chart_type : "Line",
   title : 'Sales Data',
   x_axis_label : 'Month',
   y_axis_label : 'Sales',
   has_trendline : true,
 }
 
+// post request to the backend
+const fetchData = async (data) => {
+  const response = await axios.post('http://localhost:8000/graph-data', { intention: intention.value, data: data} );
+  chartData = response.data;
+}
+
 const createChart = async() => {
   window.Excel.run(async context => {
     const range = context.workbook.getSelectedRange();
+
+    
+    range.load("valuesAsJsonLocal");
+    await context.sync();
+    const data_input = range.valuesAsJsonLocal.map(item => item.map(subItem => subItem.basicValue));
+    await fetchData(data_input);
+
+
     const sheet = context.workbook.worksheets.getActiveWorksheet();
-    const chart = sheet.charts.add(chartData.chartType, range, "Auto");
+    const chart = sheet.charts.add(chartData.chart_type, range, "Auto");
     chart.title.text = chartData["title"];
     chart.legend.format.fill.setSolidColor("white");
     chart.dataLabels.format.font.size = 15;
     chart.dataLabels.format.font.color = "black";
-    switch (chartData.chartType) {
+    switch (chartData.chart_type) {
       case "Line":
         chart.axes.valueAxis.title.text = chartData["y_axis_label"];
         chart.axes.categoryAxis.title.text = chartData["x_axis_label"];
