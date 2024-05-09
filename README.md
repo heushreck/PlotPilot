@@ -22,7 +22,9 @@ Before getting started, ensure you have the following prerequisites installed:
     npx office-addin-dev-certs install --machine --days 30
     ```
 
-## Setup
+- **Python >3.10** Install Python from [here](https://www.python.org/downloads/)
+
+## Setup FrontEnd
 
 1. Clone the repository and navigate to the project directory frontend folder:
 
@@ -42,6 +44,32 @@ Before getting started, ensure you have the following prerequisites installed:
     ```bash
     npm run serve
     ```
+
+## Setup BackEnd
+
+1. Navigate to the Backend folder
+
+    ```bash
+    cd PlotPilot/api
+    ```
+
+2. Setup a virtual environment and install the dependencies:
+
+    ```bash
+    python -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ```
+
+3. Run the API:
+
+    ```bash
+    uvicorn main:app --reload
+    ```
+
+4. In your browser check out http://localhost:8000/docs to see if your server is live and check out your API documentation.
+
+
 
 ## Sideloading the Excel Add-In
 

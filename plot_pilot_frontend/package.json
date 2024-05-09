@@ -9,7 +9,6 @@
     "validate": "office-toolbox validate -m manifest.xml"
   },
   "dependencies": {
-    "axios": "^1.6.8",
     "core-js": "^3.8.3",
     "office-toolbox": "^0.1.1",
     "vue": "^3.2.13"

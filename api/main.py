@@ -8,8 +8,8 @@ import os
 
 app = FastAPI()
 
+# for local testing, allow cross origin requests
 origins = ["*"]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

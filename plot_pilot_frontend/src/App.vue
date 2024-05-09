@@ -20,7 +20,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
 const teaGreen = ref('rgba(196, 241, 190, 1)');
 const paynesGray = ref('rgba(82, 91, 118, 1)');
 const spaceCadet = ref('rgba(32, 30, 80, 1)');
@@ -34,10 +33,17 @@ let chartData = {
   has_trendline : true,
 }
 
-// post request to the backend
 const fetchData = async (data) => {
-  const response = await axios.post('http://localhost:8000/graph-data', { intention: intention.value, data: data} );
-  chartData = response.data;
+  const requestParams = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ intention: intention.value, data: data}),
+  };
+  await fetch('http://localhost:8000/graph-data', requestParams)
+  .then(response => response.json())
+  .then(data => chartData = data);
 }
 
 const createChart = async() => {
